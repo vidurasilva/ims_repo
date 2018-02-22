@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Excellance online Shopping Mart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+<!-- Bootstrap style-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <!--CALL CSS-->   
+    <link id="callCss" rel="stylesheet" href="/cssFilespro/bootshop/bootstrap.min.css" media="screen"/>
+    <link href="/cssFilespro/css/base.css" rel="stylesheet" media="screen"/>
+<!-- Bootstrap style responsive -->	
+	<link href="/cssFilespro/css/bootstrap-responsive.min.css" rel="stylesheet"/>
+	<link href="/cssFilespro/css/font-awesome.css" rel="stylesheet" type="text/css">
+<!-- Google-code-prettify -->	
+	<link href="/cssFilespro/js/google-code-prettify/prettify.css" rel="stylesheet"/>
+<!-- fav and touch icons -->
+    <link rel="shortcut icon" href="/cssFilespro/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/cssFilespro/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/cssFilespro/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/cssFilespro/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/cssFilespro/images/ico/apple-touch-icon-57-precomposed.png">
+	<style type="text/css" id="enject"></style>
+  </head>
+
+<body>
+<div id="header">
+<div class="container">
+<div id="welcomeLine" class="row">
+	<div class="span6">Welcome! <strong> <%=user.fname %> <%=user.lname %></strong></div>
+	<div class="span6">
+	<div class="pull-right">
+		<a href="/logout"><strong> Click here to logout!</strong></a>
+	</div>
+	</div>
+</div>
+<!-- Navbar ================================================== -->
+<div id="logoArea" class="navbar">
+<a id="smallScreen" data-target="#topMenu" data-toggle="collapse" class="btn btn-navbar">
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+</a>
+  <div class="navbar-inner">
+    <a class="brand" href="/propage"><img src="/cssFilespro/images/logo.png" alt="Bootsshop"/></a>
+		<form class="form-inline navbar-search" method="post" action="/prosearch" >
+		<input class="srchTxt" type="text" name="word" placeholder="Search Products" />
+		  <select class="srchTxt"  id="mySelect" name="cat">
+			<option>All</option>
+			<%      
+                if(category.length){ 
+                for(var i = 0;i < category.length;i++) { 
+              %>
+            <option><%=category[i].name%></option>
+              <%      
+                }
+              } 
+            %>
+		</select> 
+		  <button type="submit" class="btn btn-primary">Go</button>
+    </form>
+    <ul id="topMenu" class="nav pull-right">
+	 <li class=""><a href="\home">Specials Offer</a></li>
+	 <li class=""><a href="\profile">My Profile</a></li>
+
+	 <li><a href="/viewcart" name="cart" class="btn-link"><i class="icon-shopping-cart" style="font-size:26px;color:red;"></i>Cart</a></li>
+    </ul>
+  </div>
+</div>
+</div>
+</div>
+<!-- Header End====================================================================== -->
+<div id="mainBody">
+	<div class="container">
+	<div class="row">
+<!-- Sidebar ================================================== -->
+	<div class="col-xs-3"> 
+	<div id="sidebar" class="span3">
+
+		<div class="well well-small"><a id="myCart" href="/viewcart"><img src="/cssFilespro/images/ico-cart.png" alt="cart">My Cart <span class="badge badge-warning pull-right">Rs. <%=mycart.total %></span></a></div>
+
+
+		<ul id="sideManu" class="nav nav-tabs nav-stacked">
+			<li class="subMenu open"><a> Category</a>
+				<ul>
+				<%      
+                if(category.length){ 
+                for(var i = 0;i < category.length;i++) { 
+              	%>
+				<li>
+				<form action="/prosearchside" method="post">
+					<input type="hidden" name="name" value="category_idcategory">
+					<input type="hidden" name="id" value="<%=category[i].idcategory %>">
+					<button type="submit" class="active" style="background:none;padding:0;border:none;  border-bottom:1px solid;font: inherit;"><i class="icon-chevron-right"></i><%=category[i].name %> 
+					</button>
+				</form>
+				</li>
+				<%      
+                }
+            		} 
+              	%>
+				</ul>
+			</li>
+			<li class="subMenu"><a>Generic</a>
+				<ul style="display:none">
+				<%      
+                if(generic.length){ 
+                for(var i = 0;i < generic.length;i++) { 
+              	%>
+				<li>
+				<form action="/prosearchside" method="post">
+					<input type="hidden" name="name" value="generic_idgeneric">
+					<input type="hidden" name="id" value="<%=generic[i].idgeneric %>">
+					<button type="submit" class="active" style="background:none;padding:0;border:none;  border-bottom:1px solid;font: inherit;"><i class="icon-chevron-right"></i><%=generic[i].name %> 
+					</button>
+				</form>
+				</li>
+				<%      
+                }
+            		} 
+              	%>													
+			</ul>
+			</li>
+			<li class="subMenu"><a>Brand</a>
+				<ul style="display:none">
+				<%      
+                if(brand.length){ 
+                for(var i = 0;i < brand.length;i++) { 
+              	%>
+				<li>
+				<form action="/prosearchside" method="post">
+					<input type="hidden" name="name" value="brand_idbrand">
+					<input type="hidden" name="id" value="<%=brand[i].idbrand %>">
+					<button type="submit" class="active" style="background:none;padding:0;border:none;  border-bottom:1px solid;font: inherit;"><i class="icon-chevron-right"></i><%=brand[i].name %> 
+					</button>
+				</form>
+				</li>
+				<%      
+                }
+            		} 
+              	%>													
+			</ul>
+			</li>
+			
+		</ul>
+		<br/>
+		  <div class="thumbnail">
+			<img src="/cssFilespro/images/products/bosch0.jpg" alt="Excellance Bosch New tool"/>
+			<div class="caption">
+			  <h5>BOSCH</h5>
+			</div>
+		  </div><br/>
+			<div class="thumbnail">
+				<img src="/cssFilespro/images/products/hitachi.jpg" title="Bootshop New Kindel" alt="Bootshop Kindel">
+				<div class="caption">
+				  <h5>HITACHI</h5>
+				</div>
+			  </div><br/>
+			  </div>
+	</div>
+<!-- Sidebar end=============================================== -->
+	<div class="span9">
+    <ul class="breadcrumb">
+    <li><a >Add product to the cart for purchase..... </a></li>
+    </ul>	
+	<div class="row">	  
+			<div id="gallery" class="span3">
+            <a href="<%=inventory.imagelink1%>">
+				<img src="<%=inventory.imagelink1%>" style="width:100%" />
+            </a>
+			<div id="differentview" class="moreOptopm carousel slide">
+                <div class="carousel-inner">
+                  <div class="item active">
+                   <a href="<%=inventory.imagelink1%>"> <img style="width:29%" src="<%=inventory.imagelink1%>" alt=""/></a>
+                   <a href="<%=inventory.imagelink2%>"> <img style="width:29%" src="<%=inventory.imagelink2%>" alt=""/></a>
+                   <a href="<%=inventory.imagelink3%>" > <img style="width:29%" src="<%=inventory.imagelink3%>" alt=""/></a>
+                  </div>
+                </div>
+			  
+              </div>
+			 
+			</div>
+			<div class="span6">
+				<h3> <%=inventory.name%>  </h3>
+				<small>- <%=inventory.itemcode%></small>
+				<hr class="soft"/>
+				<form class="form-horizontal qtyFrm" method="post" action="/addtocart">
+				  <div class="control-group">
+					<label class="control-label"><span>Rs. <%=inventory.retailcash%></span></label>
+					<div class="controls">
+					  <input type="number" min="1" class="span1" name="crtqty" value="1" />
+					  <input type="hidden" class="span1" name="proid" value="<%=inventory.idinventory%>" />
+					  <input type="hidden" class="span1" name="unit" value="<%=inventory.retailcash%>" />
+					  <button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i class=" icon-shopping-cart"></i></button>
+					</div>
+				  </div>
+				</form>
+				
+				<hr class="soft"/>
+				<h4>100 items in stock</h4>
+				<hr class="soft clr"/>
+				<p>
+
+				<%=inventory.description%>
+
+				</p>
+				<br class="clr"/>
+			<a href="#" name="detail"></a>
+			<hr class="soft"/>
+			</div>
+			
+			<div class="span9">
+            <ul id="productDetail" class="nav nav-tabs">
+              <li class="active"><a href="#home" data-toggle="tab">Product Details</a></li>
+              <li><a href="#profile" data-toggle="tab">New Products</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+              <div class="tab-pane fade active in" id="home">
+			  <h4>Product Information</h4>
+                <table class="table table-bordered">
+				<tbody>
+				<tr class="techSpecRow"><th colspan="2">Product Details</th></tr>
+				<tr class="techSpecRow">
+					<td class="techSpecTD1">Brand: </td>
+					<%
+					if(brand.length){ 
+                	for(var i = 0;i < brand.length;i++) { 
+                		if(brand[i].idbrand==inventory.brand_idbrand){
+                	%>
+					<td class="techSpecTD2"><%=brand[i].name%></td>
+					<%
+							}
+						}
+					}
+					%>
+
+				</tr>
+				<tr class="techSpecRow"><td class="techSpecTD1">Model:</td>
+					<%
+					if(model.length){ 
+                	for(var i = 0;i < model.length;i++) { 
+                		if(model[i].idmodel==inventory.model_idmodel){
+                	%>
+					<td class="techSpecTD2"><%=model[i].name%></td>
+					<%
+							}
+						}
+					}
+					%>
+				</tr>
+				<tr class="techSpecRow"><td class="techSpecTD1">Category:</td>
+					<%
+					if(category.length){ 
+                	for(var i = 0;i < category.length;i++) { 
+                		if(category[i].idcategory==inventory.category_idcategory){
+                	%>
+					<td class="techSpecTD2"><%=category[i].name%></td>
+					<%
+							}
+						}
+					}
+					%>
+				</tr>
+				<tr class="techSpecRow"><td class="techSpecTD1">Generic:</td>
+					<%
+					if(generic.length){ 
+                	for(var i = 0;i < generic.length;i++) { 
+                		if(generic[i].idgeneric==inventory.generic_idgeneric){
+                	%>
+					<td class="techSpecTD2"><%=generic[i].name%></td>
+					<%
+							}
+						}
+					}
+					%>
+				</tr>
+				<tr class="techSpecRow"><td class="techSpecTD1">Make:</td>
+					<%
+					if(make.length){ 
+                	for(var i = 0;i < make.length;i++) { 
+                		if(make[i].idmake==inventory.make_idmake){
+                	%>
+					<td class="techSpecTD2"><%=make[i].name%></td>
+					<%
+							}
+						}
+					}
+					%>
+				</tr>
+				<tr class="techSpecRow"><td class="techSpecTD1">Unit:</td>
+					<%
+					if(unit.length){ 
+                	for(var i = 0;i < unit.length;i++) { 
+                		if(unit[i].idunit==inventory.unit_idunit){
+                	%>
+					<td class="techSpecTD2"><%=unit[i].name%></td>
+					<%
+							}
+						}
+					}
+					%>
+				</tr>
+				</tbody>
+				</table>
+				
+				
+              </div>
+		<div class="tab-pane fade" id="profile">
+		
+		</div>
+          </div>
+
+	</div>
+</div>
+</div> </div>
+</div>
+
+	<script src="/cssFilespro/themes/js/jquery.js" type="text/javascript"></script>
+	<script src="/cssFilespro/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="/cssFilespro/js/google-code-prettify/prettify.js"></script>
+	
+	<script src="/cssFilespro/js/bootshop.js"></script>
+    <script src="/cssFilespro/js/jquery.lightbox-0.5.js"></script>
+	
+	<!-- Themes switcher section ============================================================================================= -->
+
+<span id="themesBtn"></span>
+</body>
+</html>
