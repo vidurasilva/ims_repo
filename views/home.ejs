@@ -134,11 +134,11 @@
               <div class="col-xs-3">
               </div>
                 <ul class="nav navbar-nav" >
-                <div class="col-xs-2">   <li><a href="/propage" data-toggle="tooltip" title="Products"><img src="/cssFilespro/images/ishop.jpg" class="img-circle" alt="Cinque Terre" width="45" height="45"></a></li></div>
-                <div class="col-xs-2">  <li><a href="/home" data-toggle="tooltip" title="Promos"><img src="/cssFilespro/images/ipromotion.jpg" class="img-circle" alt="Cinque Terre" width="45" height="45"></a></li></div>
-                <div class="col-xs-2">  <li><a href="/profile" data-toggle="tooltip" title="Profile"><img src="/cssFilespro/images/iproduct.jpg" class="img-circle" alt="Cinque Terre" width="45" height="45"></a></li></div>
-                <div class="col-xs-2"> <li><a href="#" data-toggle="tooltip" title="Invoices"><img src="/cssFilespro/images/iinvoice.jpg" class="img-circle" alt="Cinque Terre" width="45" height="45"></a></li></div>
-                <div class="col-xs-2">  <li><a href="/viewcart" data-toggle="tooltip" title="Cart"><img src="/cssFilespro/images/icart.jpg" class="img-circle" alt="Cinque Terre" width="45" height="45"></a></li></div>
+                <div class="col-xs-2">   <li><a href="" data-toggle="tooltip" title="Inventory"><img src="/cssFiles/ishop.jpg" class="img-circle" alt="Inventory" width="45" height="45"></a></li></div>
+                <div class="col-xs-2"></div>
+                <div class="col-xs-2">  <li><a href="" data-toggle="tooltip" title="DNS"><img src="/cssFiles/iproduct.jpg" class="img-circle" alt="DMS" width="45" height="45"></a></li></div>
+                <div class="col-xs-2"></div>
+                <div class="col-xs-2">  <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSd9S2U_W-E9VKiw6LlQaJl8oLdXxEr9hZA2ScGL4AqYlP0Hmw/viewform" data-toggle="tooltip" title="Petty cash" target="_blank"><img src="/cssFiles/iinvoice.jpg" class="img-circle" alt="Petty cash" width="45" height="45" ></a></li></div>
                 </ul>
             </div>
           </nav>
@@ -223,7 +223,7 @@
             %>
             <div class="mu sh sp abk">
 
-              <h2>New Offers and news</h2>
+              <h2>News Feeder</h2>
               
             </div>
             <%
@@ -264,8 +264,18 @@
                                 }
                               }
                           %>
-						  </a>
-                          <a onclick="alt();" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+						              </a>       
+                           <form action="delpost" method="post" id="delform">
+                                  <div class="form-group">
+                                  <input name="delid" type="hidden" value= <%=data[i].idposts %> >
+                                  </div>
+                                    <button onclick="alt();" class="pull-right btn-box-tool" type="submit" style="background:none!important;
+                                    border:none; 
+                                    padding:0!important; ">
+                                    <i class="fa fa-times"></i>
+                            </button>
+                          </form>
+                          
                         </span>
                     <span class="description"><%=data[i].when%></span>
                   </div>
@@ -289,27 +299,8 @@
                     <% }%>
                   </p>
                   <ul class="list-inline">
-                    <li>
-					<%
-                            if(data[i].employee_idemployee==user.idemployee){
-                              %>
-                                <form action="delpost" method="post" id="delform">
-                                  <div class="form-group">
-                                  <input name="delid" type="hidden" value= <%=data[i].idposts %> >
-                                  </div>
-                                  <div class="buttons">
-                                </form>
-                                <button onclick="alt();" class="glyphicon glyphicon-trash" style="background:none!important;
-                                    border:none; 
-                                    padding:0!important;
-                                    /*border is optional*/
-                                    border-bottom:1px solid #444; ">Delete
-                                </button>
-                                </div>
-                                
-                              <%
-                            }
-                    %>
+                    
+					
                   </ul>
 
                 </div>

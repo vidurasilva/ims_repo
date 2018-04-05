@@ -151,8 +151,8 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#activity" data-toggle="tab">Groups</a></li>
-              <li><a href="#timeline1" data-toggle="tab">Employees</a></li>
-              <li><a href="#timeline2" data-toggle="tab">Customers</a></li>
+              <li><a href="#timeline1" data-toggle="tab">Level - Managers</a></li>
+              <li><a href="#timeline2" data-toggle="tab">Level - Users</a></li>
               <li><a href="#settings" data-toggle="tab">Announcements</a></li>
             </ul>
             <div class="tab-content">
@@ -171,7 +171,6 @@
                     <textarea class="form-control"  rows="3" name="desc"></textarea>
                   </div>
                   <div class="form-group">
-                  <label>For Which store</label>
                   <select name="store" class="form-control">
                       <%      
                         if(store.length){ 
@@ -194,7 +193,7 @@
                   <table class="table table-hover">
                     <thead>
                     <tr>
-                      <th>Store</th>
+                      <th></th>
                       <th>Name</th>
                       <th>Description</th>
                       <th> </th>
@@ -514,9 +513,15 @@
                                       <label >Set Department :</label>
                                       <div class="form-group" >
                                         <select class="form-control" id="sel2" name="dep">
-                                          <option value="3">Developing</option>
-										                      <option value="2">Marketing</option>
-                                        </select>
+                                          <% 
+                                            if(department.length){ 
+                                            for(var j = 0;j < department.length;j++) { 
+                                          %>
+                                          <option value="<%=department[j].iddepartment%>"><%=department[j].name%></option>
+                                          <% 
+                                                }
+                                              } 
+                                          %>
                                       </div>
                                       </td>
                                     </tr>

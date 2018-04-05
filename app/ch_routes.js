@@ -5,6 +5,7 @@
 	var connection = mysql.createConnection(dbconfig.connection);
 	var cookieParser = require('cookie-parser');
 	const fileUpload = require('express-fileupload');
+	var math = require('mathjs');
 		
 	connection.query('USE ' + dbconfig.database);
 
@@ -31,8 +32,8 @@
 
 	// process the login form
 	app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/home', // redirect to the secure home section
-            failureRedirect : '/login', // redirect back to the signup page if there is an error
+            successRedirect : '/propage', // redirect to the secure home section
+            failureRedirect : '/home', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
 		}),
         function(req, res) {
@@ -64,6 +65,7 @@
 
 	}));
 
+	
 	// =====================================
 	// PROFILE SECTION =====================
 	// =====================================
@@ -77,7 +79,8 @@
 
                     res.render('profile.ejs', {
 						user : rows[0], //  pass to template
-						message: ""
+						message: "",
+						level : req.user.level
 					});
 
         });
@@ -86,7 +89,7 @@
 	});
 
 	// =====================================
-	// Fill Profile =========================
+	// Fill Profile ========================
 	// =====================================
 
 	app.get('/fillprofile', isLoggedIn, function(req, res) {
@@ -107,7 +110,8 @@
 	});
 
 	// =====================================
-	// VIEW SECTION ========================
+	// VIEW Profile ========================
+
 	app.post('/viewprofile', function(req, res) {
 
 		var newview = new Object();
@@ -127,12 +131,14 @@
 	                     	if(view.length!=0){
 	                     		res.render('profileview.ejs', {
 								user : rows[0], //  pass to template
-								view : view[0]
+								view : view[0],
+								level : req.user.level
 								});
 	                     	}else{
 	                     		res.render('profile.ejs', {
 								user : rows[0], //  pass to template
-								message: "err"
+								message: "err",
+								level : req.user.level
 								});
 	                     	}
 	                     	
@@ -163,7 +169,8 @@
 
                     res.render('profile.ejs', {
 						user : rows[0], //  pass to template
-						message: "upfail"
+						message: "upfail",
+						level : req.user.level
 					});
 
         			});
@@ -175,7 +182,8 @@
 
                     res.render('profile.ejs', {
 						user : rows[0], //  pass to template
-						message: "Updated"
+						message: "Updated",
+						level : req.user.level
 					});
 
         			});
@@ -204,7 +212,8 @@
                     res.render('fillprofile.ejs', {
 						user : rows[0], //  pass to template
 						message: "upfail",
-						message2: "Please fill Your details and login to the system! (Admin approvel require for login)"
+						message2: "Please fill Your details and login to the system! (Admin approvel require for login)",
+						level : req.user.level
 					});
 
         			});
@@ -217,7 +226,8 @@
                     res.render('fillprofile.ejs', {
 						user : rows[0], //  pass to template
 						message: "Updated",
-						message2: "Please fill Your details and login to the system! (Admin approvel require for login)"
+						message2: "Please fill Your details and login to the system! (Admin approvel require for login)",
+						level : req.user.level
 					});
 
         			});
@@ -257,7 +267,8 @@
 
                     res.render('profile.ejs', {
 						user : rows[0], //  pass to template
-						message: "notuploaded"
+						message: "notuploaded",
+						level : req.user.level
 					});
 
         			});
@@ -271,7 +282,8 @@
 
                     res.render('profile.ejs', {
 						user : rows[0], //  pass to template
-						message: "Uploaded"
+						message: "Uploaded",
+						level : req.user.level
 					});
 
         			});
@@ -318,7 +330,8 @@
                     res.render('fillprofile.ejs', {
 						user : rows[0], //  pass to template
 						message: "notuploaded",
-						message2: "Please fill Your details and login to the system! (Admin approvel require for login)"
+						message2: "Please fill Your details and login to the system! (Admin approvel require for login)",
+						level : req.user.level
 					});
 
         			});
@@ -333,7 +346,8 @@
                     res.render('fillprofile.ejs', {
 						user : rows[0], //  pass to template
 						message: "Uploaded",
-						message2: "Please fill Your details and login to the system! (Admin approvel require for login)"
+						message2: "Please fill Your details and login to the system! (Admin approvel require for login)",
+						level : req.user.level
 					});
 
         			});
@@ -351,320 +365,6 @@
 		  });
 
 		});
-
-
-	// =====================================
-	// Home SECTION =========================
-	// =====================================
-
-	app.get('/home', function(req, res) {
-
-
-					connection.query("SELECT * FROM employee WHERE login_idlogin = ? ",[req.user.idlogin], function(err1, rows) {
-                    if (err1)
-                         console.log(err1);;
-
-                     		var query = connection.query('SELECT * FROM posts ORDER BY idposts DESC',function(err2,post){
-			        		if(err2)
-			        			console.log(err2);;
-
-			        			var query = connection.query('SELECT * FROM employee',function(err3,rowlist){
-				        		if(err3)
-				        			console.log(err3);; 
-
-				        			var query = connection.query('SELECT * FROM announcements ORDER BY idannouncements DESC',function(err4,anns){
-				        			if(err4)
-				        				console.log(err4);;
-
-				        			if(req.user.status=="B"){
-										res.render('home.ejs', {
-										employeelist : rowlist,
-										user : rows[0],							//  pass to template
-										data : post,
-										ann : anns,
-										message: "",
-										level: req.user.level
-										});
-
-				        			}else{
-
-				        				res.render('login.ejs', { message:"Not approved your account yet! Please contact your admin. " });
-
-				        			}
-				        						
-			        				});
-			        			});
-			        		});
-                   
-        			});
-			});
-	
-
-	// =====================================
-	// Posting news =========================
-	// =====================================
-
-	app.post('/posting', function(req, res) {
-
-										connection.query("SELECT * FROM employee WHERE login_idlogin = ?",[req.user.idlogin], function(err, rows) {
-						                if (err)
-						                    console.log(err);
-						                    // if there is no user with that username
-						                    // create the user
-						                        var newPost = new Object();
-						                        newPost.when = req.body.datetime;
-						                        newPost.post = req.body.postnews;
-						                        newPost.type = req.body.msgtype;
-						                        newPost.employee_idemployee = rows[0].idemployee;
-						                        newPost.department_iddepartment = req.body.depid;
-						                        newPost.url = req.body.url;
-						                        
-						                        console.log("Connected!");
-						                        var insertQuery = "INSERT INTO posts (posts.post, posts.when, posts.type, posts.employee_idemployee,posts.department_iddepartment,posts.url) values (?,?,?,?,?,?)";
-							                        connection.query(insertQuery,[ newPost.post, newPost.when,newPost.type,newPost.employee_idemployee,newPost.department_iddepartment,newPost.url],function(err, rows) {
-							                        if (err){
-							                        		console.log(err);
-
-							                        		connection.query("SELECT * FROM employee WHERE login_idlogin = ? ",[req.user.idlogin], function(err1, rows) {
-										                    if (err1)
-										                         console.log(err1);;
-
-										                     		var query = connection.query('SELECT * FROM posts ORDER BY idposts DESC',function(err2,post){
-													        		if(err2)
-													        			console.log(err2);;
-
-													        			var query = connection.query('SELECT * FROM employee',function(err3,rowlist){
-														        		if(err3)
-														        			console.log(err3);; 
-
-														        			var query = connection.query('SELECT * FROM announcements',function(err4,anns){
-														        			if(err4)
-														        				console.log(err4);;
-
-														        				res.render('home.ejs', {
-																				employeelist : rowlist,
-																				user : rows[0],							//  pass to template
-																				data : post,
-																				ann : anns,
-																				message: "posterr",
-																				level: req.user.level
-																				});
-
-													        				});
-													        			});
-													        		});
-										                   
-										        			});
-								                        	
-
-
-							                        }else{
-							                        	connection.query("SELECT * FROM employee WHERE login_idlogin = ? ",[req.user.idlogin], function(err1, rows) {
-									                    if (err1)
-									                         console.log(err1);;
-
-									                     		var query = connection.query('SELECT * FROM posts ORDER BY idposts DESC',function(err2,post){
-												        		if(err2)
-												        			console.log(err2);;
-
-												        			var query = connection.query('SELECT * FROM employee',function(err3,rowlist){
-													        		if(err3)
-													        			console.log(err3);; 
-
-													        			var query = connection.query('SELECT * FROM announcements',function(err4,anns){
-													        			if(err4)
-													        				console.log(err4);;
-
-													        				res.render('home.ejs', {
-																			employeelist : rowlist,
-																			user : rows[0],							//  pass to template
-																			data : post,
-																			ann : anns,
-																			message: "posted",
-																			level: req.user.level
-																			});
-
-												        				});
-												        			});
-												        		});
-									                   
-									        			});
-
-							                        }
-
-							                        
-						                    });
-
-							           //res.redirect('/home'); 
-
-						            });
-
-
-			});
-
-	// =====================================
-	// G Drive SECTION =====================
-	// =====================================
-	app.get('/gdrive', function(req, res) {
-
-					connection.query("SELECT * FROM employee WHERE login_idlogin = ?",[req.user.idlogin], function(err, rows) {
-                    if (err)
-                         console.log(err);;
-
-                    res.render('gdrive.ejs', {
-						user : rows[0] //  pass to template
-					});
-
-        			});
-
-        });
-
-
-
-	// =====================================
-	// del post news =========================
-	// =====================================
-
-	app.post('/delpost', function(req, res) {
-
-										connection.query("DELETE FROM posts WHERE idposts = ?",[req.body.delid], function(err, rows) {
-						                if (err)
-						                    console.log(err);
-
-						                console.log("Post deleted");
-						                res.redirect('/home'); 
-						                    
-						                        
-						            });
-
-			});
-
-
-	// =====================================
-	// Dashboard ===========================
-	// =====================================
-	app.get('/dash', function(req, res) {
-		
-
-		connection.query("SELECT * FROM employee WHERE login_idlogin = ? ",[req.user.idlogin], function(err1, rows) {
-                    if (err1)
-                         console.log(err1);;
-
-			        			var query = connection.query('SELECT * FROM employee',function(err3,rowlist){
-				        		if(err3)
-				        			console.log(err3);;
-
-				        			var query = connection.query('SELECT * FROM login',function(err4,usrlist){
-				        			if(err3)
-				        				console.log(err4);;
-				        			if(req.user.level=="admin"){
-				        				res.render('dashboard.ejs', {
-										employeelist : rowlist,
-										user : rows[0],		//  pass to template
-										allusrs : usrlist
-										});
-				        			}else{
-				        				res.render('profile.ejs', {
-										user : rows[0], //  pass to template
-										message: "notadmin"
-										});
-				        			}
-				        				
-
-			        			  	});
-				        			
-			        			});
-                   
-        	});
-
-
-	});
-
-
-	// =====================================
-	// =====================================
-	// EDIT Announcements
-
-	app.post('/ann', function(req, res, next) {
-
-		
-			var newann = new Object();
-			newann.annid = req.body.annnum;
-			newann.post = req.body.postann;
-			newann.when = req.body.datetime;
-			newann.employee_idemployee = req.body.usr;
-
-			var insertQuery = "UPDATE announcements SET announcements.post = ?, announcements.when = ?, announcements.employee_idemployee = ? WHERE announcements.idannouncements = ?";
-			connection.query(insertQuery,[ newann.post, newann.when,newann.employee_idemployee,newann.annid],function(err, rows) {
-				 if (err) {
-					console.log(err);
-				
-					
-					
-				} else {
-					console.log('Data updated successfully!');
-					res.redirect('/home'); 
-					
-				}
-			})
-		
-
-	});
-
-	// =====================================
-	// =====================================
-	// Apprv Usr
-
-	app.post('/apprv', function(req, res, next) {
-
-		
-			var newusr = new Object();
-			newusr.usrid = req.body.usrid;
-			newusr.level = req.body.level;
-			newusr.status = "B";
-
-
-			var insertQuery = "UPDATE login SET login.level = ?, login.status = ? WHERE login.idlogin = ?";
-			connection.query(insertQuery,[ newusr.level, newusr.status,newusr.usrid ],function(err, rows) {
-				 if (err) {
-					console.log(err);
-				
-				} else {
-					connection.query("UPDATE employee SET department_iddepartment = ? WHERE login_idlogin = ?",[req.body.dep, req.user.idlogin], function(err, rows) {
-                    if (err)
-                         console.log(err);;
-                     });
-					console.log('Permition Granted');
-					res.redirect('/home'); 
-					
-				}
-			})
-		
-
-	});
-
-	// =====================================
-	// =====================================
-	// Rvk Usr
-
-	app.post('/revk', function(req, res, next) {
-
-			var newusr = new Object();
-			newusr.usrid = req.body.usrid;
-			newusr.status = "A";
-
-
-			var insertQuery = "UPDATE login SET login.status = ? WHERE login.idlogin = ?";
-			connection.query(insertQuery,[ newusr.status, newusr.usrid ],function(err, rows) {
-				 if (err) 
-					console.log(err);
-
-				res.redirect('/home');
-				
-			})
-		
-
-	});
 
 
 	// =====================================
@@ -774,5 +474,3 @@ function isLoggedIn(req, res, next) {
 	// if they aren't redirect them to the home page
 	res.redirect('/');
 }
-
-

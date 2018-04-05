@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://cloudpartners.biz/cdn/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link href="https://cloudpartners.biz/cdn/material-kit.min.css" rel="stylesheet" />
+   
+   <!-- boostrap css-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid"> 
+<div class="card card-nav-tabs">
+    <div class="card-header card-header-info" >
+        <div class="nav-tabs-navigation" >
+        </div>
+    </div>  
+    <br>
+    <br>
+  <div id="header">
+  <div style="text-align: center;">
+  <div class="row">
+    <div class="col-sm-3" style="text-align:left;"><button type="button" class="btn btn-info btn-link" data-dismiss="modal" style="align-content:left">back</button> 
+   </div>
+   <br> 
+    <div class="col-sm-6" style="align-content:center;">
+       <a href="#pablo" data-toggle="modal" data-target="#myModal">
+            <i class="material-icons">dashboard</i> Dashboard
+        </a>
+        <a href="#" class="active" data-toggle="modal">
+            <i class="material-icons">schedule</i> Letest Vaucher
+        </a>
+        <a href="#pablo" data-toggle="modal" data-target="#myModal">
+            <i class="material-icons">list</i> Add Vaucher
+        </a>  
+     </div>
+        
+   <div class="col-sm-3"  style="text-align:right;">
+        <button type="button" class="btn btn-info btn-link" data-dismiss="modal" >Privious</button> 
+   </div>
+   
+</div>
+<br>
+    <h2 style="color:#33b5e5 ">CLOUD PARTNERS(PVT)LTD</h2>
+    <h4 style="align-content:center;">LEVEL 26,East Tower, WTC, Echelon Square,Colombo 01</h4>
+    <h3 style="text-align: center;"><b>PAYMENT VOUCHER</b></h3><br>
+</div>
+    
+
+</div>
+</div>
+ <!-- Classic Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="material-icons">clear</i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                       <label class="label-control">Voucher No:</label>
+                       <input type="text" class="form-control datetimepicker" value="VNO">
+                       <label class="label-control">Datetime Picker</label>
+                       <input type="text-area" class="form-control datetimepicker" value="2018/04/01">
+                       <label for="comment"> <span class="glyphicon glyphicon-comment" style="width:30px"></span>Add Description: </label>
+                       <textarea class="form-control" rows="4" name="comment"></textarea><br>
+        
+                                    
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link">Nice Button</button>
+                    <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  End Modal -->
+<!-- Header End====================================================================== -->
+<div id="mainBody">
+<div class="container">
+  
+<header>
+  <div class="row" style="border-style: solid;">
+   <h4 style="text-align: left;">Name: <?=responses[k-1].name?></h4>  
+   <h4 style="text-align: right;">Request Date:<?=new Date().toDateString() ?></h4>
+  </div>
+</header>
+  <br>
+<!--End of Heading
+================================================== -->
+
+    <div class="row">
+      <div class="col-xs-10"><p><h4 style="color:#33b5e5 "  style="align-content:left">Applicant Signature</h4><br>........................... </p></div>
+      <div class="col-xs-2"><p><h4 style="color:#33b5e5 " style="align-content:right">Authorized Signature</h4><br> .........................</p></div>
+    </div>
+</div>
+</div>
+</div><!--  end contener -->
+</div><!-- end of navibar-->
+</body>
+</html>
